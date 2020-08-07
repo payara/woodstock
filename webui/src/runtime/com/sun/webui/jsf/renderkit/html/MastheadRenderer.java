@@ -141,6 +141,8 @@ public class MastheadRenderer extends AbstractRenderer {
 
         renderUserInfo(context, masthead, writer, theme);
 
+        renderStatusArea(context, masthead, writer, theme);
+
         // now render the product name info / image
         renderProductInfo(context, masthead, writer,
                 theme.getStyleClass(ThemeStyles.MASTHEAD_DIV_TITLE));
@@ -412,6 +414,17 @@ public class MastheadRenderer extends AbstractRenderer {
 
         renderServerInfo(context, masthead, theme, labelStyle,
                 textStyle, writer);
+
+        UIComponent facet = masthead.getFacet("userInfoExtras"); //NOI18N
+        if (facet != null) {
+            // This should be some sort of CSS selector on the
+            // span or the previous span or the span should contain
+            // the facet since the facet may not add any space.
+            //
+            writer.write("&nbsp;"); //NOI18N
+
+            RenderingUtilities.renderComponent(facet, context);
+        }
 
         writer.endElement(HTMLElements.DIV); //NOI18N
     }
@@ -952,8 +965,6 @@ public class MastheadRenderer extends AbstractRenderer {
         writer.endElement(HTMLElements.TR);
 
         writer.endElement(HTMLElements.TABLE);
-
-        renderStatusArea(context, masthead, writer, theme);
 
         // close the div that wraps the entire masthead
         writer.endElement(HTMLElements.DIV); //NOI18N
